@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddCors();
 var app = builder.Build();
 
 string BASE_URL = "BaseUrlGoesHerePlease";
+//string BASE_URL = "http://127.0.0.1:5500";
+
 
 app.UseCors( x => x
     .AllowAnyMethod()
@@ -34,32 +37,53 @@ app.MapGet("/getcurrentvideotime", ([FromServices] DJ dj) =>
 
 app.MapPost("/addsongtoqueue", ([FromForm] string youtubeVideoURL, [FromServices] DJ dj) =>
 {
-    string youtubeVideoID = youtubeVideoURL.Substring(youtubeVideoURL.Length - 11, 11);
-
-    dj.AddSongToQueue(youtubeVideoID);
-
-    return "Added (probably)";
+    if (validateUrl(youtubeVideoURL)) {
+        string id = getIdFromUrl(youtubeVideoURL);
+        dj.AddSongToQueue(id);
+        return "Added to queue (probably)";
+    } else {
+        return "Bad link I am afraid";
+    }
 
 }).DisableAntiforgery();
 
 app.MapPost("/removesongfromqueue", ([FromForm] string youtubeVideoURL, [FromServices] DJ dj) => {
 
-    string youtubeVideoID = youtubeVideoURL.Substring(youtubeVideoURL.Length - 11, 11);
-
-    dj.RemoveSongFromQueue(youtubeVideoID);
-
-    return "Removed (probably)";
+    if (validateUrl(youtubeVideoURL)) {
+        string id = getIdFromUrl(youtubeVideoURL);
+        dj.RemoveSongFromQueue(id);
+        return "It's gone! (most likely)";
+    } else {
+        return "Bad link pal";
+    }
 
 }).DisableAntiforgery();
 
 app.MapPost("/forgetsong", ([FromForm] string youtubeVideoURL, [FromServices] DJ dj) => {
 
-    string youtubeVideoID = youtubeVideoURL.Substring(youtubeVideoURL.Length - 11, 11);
+    if (validateUrl(youtubeVideoURL)) {
+        string id = getIdFromUrl(youtubeVideoURL);
+        dj.ForgetSong(id);
+        return "Ye shall never hear it again (probably)";
+    } else {
+        return "Bad link buddy";
+    }
 
-    dj.ForgetSong(youtubeVideoID);
 
-    return "Ye shall never hear it again (probably)";
 
 }).DisableAntiforgery();
+
+string getIdFromUrl(string youtubeVideoURL) {
+    string result = youtubeVideoURL.Substring(youtubeVideoURL.Length - 11, 11);
+    return result;  
+}
+
+bool validateUrl(string youtubeVideoURL) {
+    if (youtubeVideoURL.Length != 43) {
+        return false;
+    } else {
+        return true;
+    }    
+}
 
 app.Run();
