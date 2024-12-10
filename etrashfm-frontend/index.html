@@ -54,6 +54,11 @@
             hx-target="#queue"
             hx-swap="innerHTML"
             hx-trigger="load, every 5s">
-      </div>
+        </div>
+
+        <button hx-get="http://localhost:8000/skipcurrentsong"
+        hx-trigger="click">
+        Skip!
+        </button>
     </body>
 </html>

@@ -38,13 +38,20 @@ app.MapGet("/getcurrentvideotime", ([FromServices] DJ dj) =>
 app.MapGet("/getqueue", ([FromServices] DJ dj) =>
 {
     IEnumerable<string> queue = dj.GetQueue();
-    string result = "<br><br><h2>Queue</h2><br>";
+    string result = @"<br><br><h2 id=""queue_title"">Queue</h2><br>";
 
     foreach (var song in queue) {
         result += $"<p>{song}</p><br>";
     }
 
     return result;
+});
+
+app.MapGet("/skipcurrentsong", ([FromServices] DJ dj) =>
+{
+    dj.SkipCurrentSong();
+
+    //return;
 });
 
 

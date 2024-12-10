@@ -114,6 +114,10 @@ public class DJ : IHostedService, IDisposable {
         return queue;
     }
 
+    public void SkipCurrentSong(){
+         currentTime = currentSongDuration - 2;
+    }
+
     public void ForgetSong(string videoID){
         database.Execute($"DELETE FROM [backlog] WHERE (video_id = \"{videoID}\")");
     }
