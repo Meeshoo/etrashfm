@@ -1,5 +1,5 @@
 const YTPlayer = require('yt-player')
-const player = new YTPlayer('#player')
+const player = new YTPlayer('#player', {autoplay: true, modestBranding: true})
 
 API_URL = "http://localhost:8000"
 

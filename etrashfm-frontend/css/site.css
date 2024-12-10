@@ -3,8 +3,8 @@ h1 {
   font-family: 'Tomorrow', sans-serif;
   font-size: 60px;
   text-align: center;
-  margin-top: 80px;
-  margin-bottom: 70px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 * {
@@ -48,3 +48,5 @@ a {
   background-color: blueviolet;
   padding: 2rem;
 }
+
+/* UI */
