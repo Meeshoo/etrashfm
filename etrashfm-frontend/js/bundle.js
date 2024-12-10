@@ -4,42 +4,34 @@ const player = new YTPlayer('#player')
 
 API_URL = "http://localhost:8000"
 
-loadCurrentVideo()
-
-player.setVolume(5)
-
-player.play()
-
-setTimeout(() => seekToServerTime(), 1000);
-
-player.getCurrentTime()
-
-player.on('playing', () => {
-  console.log(player.getCurrentTime())
-})
+window.onload = function() {
+  setTimeout(() => loadCurrentVideo(), 1000);
+  player.setVolume(5)
+};
 
 player.on('ended', () => {
   setTimeout(() => loadCurrentVideo(), 1000);
 })
 
 
+// async function seekToServerTime() {
+//   const url = API_URL.concat("/getcurrentvideotime");
+//   try {
+//     const response = await fetch(url);
+//     if (!response.ok) {
+//       throw new Error(`Response status: ${response.status}`);
+//     }
 
+//     video_time = await response.json();
 
-async function seekToServerTime() {
-  const url = API_URL.concat("/getcurrentvideotime");
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
+//   } catch (error) {
+//     console.error(error.message);
+//   }
 
-    const video_time = await response.json();
-    console.log("Time to seek to : ".concat(video_time))
-    player.seek(video_time)
-  } catch (error) {
-    console.error(error.message);
-  }
-}
+//   console.log("Time to seek to : ".concat(video_time))
+//   player.seek(video_time)
+
+// }
 
 async function loadCurrentVideo() {
   const url = API_URL.concat("/getcurrentvideoid");
@@ -49,12 +41,26 @@ async function loadCurrentVideo() {
       throw new Error(`Response status: ${response.status}`);
     }
 
-    const video_id = await response.text();
-    console.log("Video ID: ".concat(video_id))
-    player.load(video_id, true)
+    video_id = await response.text();
   } catch (error) {
     console.error(error.message);
   }
+
+  const url2 = API_URL.concat("/getcurrentvideotime");
+  try {
+    const response = await fetch(url2);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    video_time = await response.text();
+  } catch (error) {
+    console.error(error.message);
+  }
+
+  console.log("Video ID: ".concat(video_id," at ", video_time))
+  player.load(video_id, true, video_time)
+
 }
 },{"yt-player":3}],2:[function(require,module,exports){
 /*! load-script2. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
