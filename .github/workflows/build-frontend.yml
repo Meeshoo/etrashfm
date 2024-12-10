@@ -41,8 +41,11 @@ jobs:
           echo -e "[default]\n" | sudo tee -a /root/.aws/config; \
             echo -e "region = eu-west-1\n" | sudo tee -a /root/.aws/config;
 
-      - name: Bodge in API URL
+      - name: Bodge in API URL to HTML
         run: sed -i 's%http\:\/\/localhost\:8000%${{ secrets.API_URL }}%g' etrashfm-frontend/index.html
+
+      - name: Bodge in API URL to JS
+        run: sed -i 's%http\:\/\/localhost\:8000%${{ secrets.API_URL }}%g' etrashfm-frontend/js/index.js
       
       - name: Packer build
         run: cd .build && sudo packer build etrashfm-frontend.pkr.hcl
