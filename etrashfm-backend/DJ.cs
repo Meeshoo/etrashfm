@@ -8,9 +8,9 @@ using Dapper;
 public class DJ : IHostedService, IDisposable {
 
     private Timer? _timer = null;
-    private static string currentSongID = "a3QIRd0Tfbs";
-    private static int currentSongDuration = 95;
-    private static int currentTime = 0;
+    private static string currentSongID;
+    private static int currentSongDuration = 0;
+    private static int currentTime = 1;
     private readonly IConfiguration configuration;
     readonly string youtubeApiKey;
     YouTubeService yt;
