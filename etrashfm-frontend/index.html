@@ -48,5 +48,12 @@
             </form>
             <p id="forget_song_result"></p>
         </div>
+
+        <div id="queue"
+            hx-get="http://localhost:8000/getqueue"
+            hx-target="#queue"
+            hx-swap="innerHTML"
+            hx-trigger="load, every 5s">
+      </div>
     </body>
 </html>

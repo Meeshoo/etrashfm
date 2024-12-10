@@ -35,6 +35,19 @@ app.MapGet("/getcurrentvideotime", ([FromServices] DJ dj) =>
     return currentSongTimestamp;
 });
 
+app.MapGet("/getqueue", ([FromServices] DJ dj) =>
+{
+    IEnumerable<string> queue = dj.GetQueue();
+    string result = "<br><br><h2>Queue</h2><br>";
+
+    foreach (var song in queue) {
+        result += $"<p>{song}</p><br>";
+    }
+
+    return result;
+});
+
+
 app.MapPost("/addsongtoqueue", ([FromForm] string youtubeVideoURL, [FromServices] DJ dj) =>
 {
     if (validateUrl(youtubeVideoURL)) {
@@ -68,8 +81,6 @@ app.MapPost("/forgetsong", ([FromForm] string youtubeVideoURL, [FromServices] DJ
     } else {
         return "Bad link buddy";
     }
-
-
 
 }).DisableAntiforgery();
 

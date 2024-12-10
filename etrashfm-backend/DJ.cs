@@ -109,6 +109,11 @@ public class DJ : IHostedService, IDisposable {
         return currentTime;
     }
 
+    public IEnumerable<string> GetQueue(){
+        IEnumerable<string> queue = database.Query<string>("SELECT [video_id] FROM [queue]");
+        return queue;
+    }
+
     public void ForgetSong(string videoID){
         database.Execute($"DELETE FROM [backlog] WHERE (video_id = \"{videoID}\")");
     }
