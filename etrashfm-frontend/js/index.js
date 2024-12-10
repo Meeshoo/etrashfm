@@ -5,7 +5,7 @@ API_URL = "http://localhost:8000"
 
 loadCurrentVideo()
 
-player.setVolume(10)
+player.setVolume(5)
 
 player.play()
 

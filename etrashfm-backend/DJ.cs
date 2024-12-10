@@ -75,8 +75,6 @@ public class DJ : IHostedService, IDisposable {
         }
 
         currentTime++; 
-
-        Console.WriteLine($"Current time: {currentTime}");
     }
 
     public void AddSongToQueue(String videoID) {
