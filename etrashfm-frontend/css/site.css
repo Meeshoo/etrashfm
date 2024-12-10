@@ -1,0 +1,50 @@
+h1 {
+  color: white;
+  font-family: 'Tomorrow', sans-serif;
+  font-size: 60px;
+  text-align: center;
+  margin-top: 80px;
+  margin-bottom: 70px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: black;
+  color: white;
+  background-color:#2b2b2b;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+p {
+  margin-top: 10px;
+  color: white;
+  font-size: 14px;
+  text-align: center;
+}
+
+form {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+a {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* Player */
+#player {
+  background-color: blueviolet;
+  padding: 2rem;
+}

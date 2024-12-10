@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<script src="pkgs/htmx.min.js" defer></script>
+
+<html>
+    <head>
+        <title>eTrash FM</title>
+        <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+        <link rel="stylesheet" type="text/css" href="css/site.css" />
+        <link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <h1>eTrash FM</h1>
+
+        <div id="player"></div>
+
+        <script src="js/bundle.js"></script>
+
+        <br>
+        <div id="queue_song_box">
+            <form hx-post="http://localhost:8000/addsongtoqueue" hx-target="#queue_song_result" hx-swap="innerHTML">
+                <div>
+                    <input name="youtubeVideoURL" type="text" placeholder="Youtube Link">
+                </div>
+            <button>Queue song</button>
+            </form>
+            <p id="queue_song_result"></p>
+        </div>
+
+        <div id="remove_song_box">
+            <form hx-post="http://localhost:8000/removesongfromqueue" hx-target="#remove_song_result" hx-swap="innerHTML">
+                <div>
+                    <input name="youtubeVideoURL" type="text" placeholder="Youtube Link">
+                </div>
+            <button>Remove song from queue</button>
+            </form>
+            <p id="remove_song_result"></p>
+        </div>
+
+        <div id="forget_song_box">
+            <form hx-post="http://localhost:8000/forgetsong" hx-target="#forget_song_result" hx-swap="innerHTML">
+                <div>
+                    <input name="youtubeVideoURL" type="text" placeholder="Youtube Link">
+                </div>
+            <button>Forget song</button>
+            </form>
+            <p id="forget_song_result"></p>
+        </div>
+    </body>
+</html>

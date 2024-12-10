@@ -1,0 +1,6 @@
+@etrashfm_HostAddress = http://localhost:5119
+
+GET {{etrashfm_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
