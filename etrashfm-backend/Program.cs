@@ -9,10 +9,12 @@ builder.Services.AddCors();
 
 var app = builder.Build();
 
+string BASE_URL = "BaseUrlGoesHerePlease";
+
 app.UseCors( x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .AllowAnyOrigin());
+    .WithOrigins(BASE_URL));
 
 
 // Endpoints
