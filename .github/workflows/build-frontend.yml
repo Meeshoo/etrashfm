@@ -45,7 +45,7 @@ jobs:
         run: sed -i 's%http\:\/\/localhost\:8000%${{ secrets.API_URL }}%g' etrashfm-frontend/index.html
 
       - name: Bodge in API URL to JS
-        run: sed -i 's%http\:\/\/localhost\:8000%${{ secrets.API_URL }}%g' etrashfm-frontend/js/index.js
+        run: sed -i 's%http\:\/\/localhost\:8000%${{ secrets.API_URL }}%g' etrashfm-frontend/js/bundle.js
       
       - name: Packer build
         run: cd .build && sudo packer build etrashfm-frontend.pkr.hcl
