@@ -78,22 +78,9 @@ app.MapPost("/addsongtoqueue", ([FromForm] string youtubeVideoURL, [FromServices
 
 }).DisableAntiforgery();
 
-// app.MapPost("/removesongfromqueue", ([FromForm] string youtubeVideoURL, [FromServices] DJ dj) => {
-
-//     if (validateUrl(youtubeVideoURL)) {
-//         string id = getIdFromUrl(youtubeVideoURL);
-//         dj.RemoveSongFromQueue(id);
-//         return "It's gone! (most likely)";
-//     } else {
-//         return "Bad link pal";
-//     }
-
-// }).DisableAntiforgery();
-
 app.MapPost("/removesongfromqueue", ([FromQuery] string video_id, [FromServices] DJ dj) => {
 
         dj.RemoveSongFromQueue(video_id);
-        return "It's gone! (most likely)";
 
 }).DisableAntiforgery();
 
