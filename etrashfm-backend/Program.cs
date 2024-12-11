@@ -43,23 +43,24 @@ app.MapGet("/getqueue", ([FromServices] DJ dj) => {
     string result = @"<br><br><h2 id=""queue_title"">Queue</h2><br>";
 
     IEnumerable<string> queue = dj.GetQueue();
-    List<String> queue_list = queue.ToList();
-    if (queue_list.Count != 0) {
+
+    if (queue.Count() < 2) {
+        result += "<p>Queue is empy 🤷</p>";
+    } else {
+        List<String> queue_list = queue.ToList();
         queue_list.RemoveAt(0); // Remove currently playing song
         foreach (var song in queue_list) {
-        result += $@"
-            <div class=""queue_entry"">
-            <p>{song}</p>
-            <button hx-post=""{API_URL}/removesongfromqueue?video_id={song}""
-                hx-trigger=""click"">
-                Remove
-            </button>
-            </div>
-            <br>
-            ";
+            result += $@"
+                <div class=""queue_entry"">
+                <p>{song}</p>
+                <button hx-post=""{API_URL}/removesongfromqueue?video_id={song}""
+                    hx-trigger=""click"">
+                    Remove
+                </button>
+                </div>
+                <br>
+                ";
         }
-    } else {
-        result += "<p>Queue is empy 🤷</p>";
     }
 
     return result;
