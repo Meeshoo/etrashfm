@@ -47,6 +47,9 @@ jobs:
       - name: Bodge in BASE URL
         run: sed -i 's%BaseUrlGoesHerePlease%${{ secrets.BASE_URL }}%' etrashfm-backend/Program.cs
 
+      - name: Bodge in BASE URL
+        run: sed -i 's%APIUrlGoesHerePlease%${{ secrets.API_URL }}%' etrashfm-backend/Program.cs
+
       - name: Build DotNet app
         run: mkdir -p output  && dotnet build etrashfm-backend/etrashfm.csproj -o output/
       
