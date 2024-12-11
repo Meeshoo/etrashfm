@@ -11,10 +11,9 @@ builder.Services.AddCors();
 
 var app = builder.Build();
 
-string BASE_URL = "BaseUrlGoesHerePlease";
-string API_URL = "APIUrlGoesHerePlease";
-// string BASE_URL = "http://127.0.0.1:5500";
-// string API_URL = "http://127.0.0.1:8000";
+
+string BASE_URL = "http://127.0.0.1:5500";
+string API_URL = "http://127.0.0.1:8000";
 
 
 app.UseCors( x => x
@@ -112,16 +111,17 @@ app.MapPost("/forgetsong", ([FromForm] string youtubeVideoURL, [FromServices] DJ
 }).DisableAntiforgery();
 
 string getIdFromUrl(string youtubeVideoURL) {
-    string result = youtubeVideoURL.Substring(youtubeVideoURL.Length - 11, 11);
+    int questionMarkPosition = youtubeVideoURL.IndexOf('?');
+    string result = youtubeVideoURL.Substring(questionMarkPosition + 3, 11);
     return result;  
 }
 
 bool validateUrl(string youtubeVideoURL) {
-    if (youtubeVideoURL.Length != 43) {
-        return false;
-    } else {
+    if (youtubeVideoURL.Contains("?v=")) {
         return true;
-    }    
+    } else {
+        return false;
+    }
 }
 
 app.Run();
