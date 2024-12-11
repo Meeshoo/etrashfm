@@ -42,7 +42,10 @@ app.MapGet("/getqueue", ([FromServices] DJ dj) =>
 {
     IEnumerable<string> queue = dj.GetQueue();
     List<String> queue_list = queue.ToList();
-    queue_list.RemoveAt(0); // Remove currently playing song
+    if (queue_list.Count != 0) {
+            queue_list.RemoveAt(0); // Remove currently playing song
+    }
+
     string result = @"<br><br><h2 id=""queue_title"">Queue</h2><br>";
 
     foreach (var song in queue_list) {
