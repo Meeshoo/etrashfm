@@ -83,7 +83,7 @@ public class DJ : IHostedService, IDisposable {
         var request = yt.Videos.List("snippet");
         request.Id = videoID;
         var result = request.Execute();
-        string songTitle = result.Items.First().Snippet.Title;
+        string songTitle = result.Items.First().Snippet.Title ?? "ERROR GETTING TITLE (soz)";
 
         database.Execute("INSERT INTO [queue] VALUES(NULL, @video_id, @video_title)", new
             {
@@ -118,6 +118,11 @@ public class DJ : IHostedService, IDisposable {
 
     public IEnumerable<string> GetQueue(){
         IEnumerable<string> queue = database.Query<string>("SELECT [video_title] FROM [queue]");
+        return queue;
+    }
+
+    public IEnumerable<string> GetQueueIds(){
+        IEnumerable<string> queue = database.Query<string>("SELECT [video_id] FROM [queue]");
         return queue;
     }
 

@@ -42,15 +42,19 @@ app.MapGet("/getqueue", ([FromServices] DJ dj) => {
     string result = @"<br><br><h2 id=""queue_title"">Queue</h2><br>";
 
     IEnumerable<string> queue = dj.GetQueue();
+    List<string> queue_list = queue.ToList();
+    IEnumerable<string> queue_ids = dj.GetQueueIds();
+    List<string> queue_id_list = queue_ids.ToList();
 
     if (!queue.Any()) {
-        result += "<p>Queue's empy 🤷</p>";
+        result += @"<p>Queue's empy 🤷</p><div id=""queue_list"">";
     } else {
-        foreach (var song in queue) {
+        foreach (var song in queue_list) {
+            string id = queue_id_list[queue_list.IndexOf(song)];
             result += $@"
                 <div class=""queue_entry"">
                 <p>{song}</p>
-                <button hx-post=""{API_URL}/removesongfromqueue?video_id={song}""
+                <button hx-post=""{API_URL}/removesongfromqueue?video_id={id}""
                     hx-trigger=""click"">
                     Remove
                 </button>
@@ -58,6 +62,7 @@ app.MapGet("/getqueue", ([FromServices] DJ dj) => {
                 <br>
                 ";
         }
+        result += "</div>";
     }
 
     return result;
