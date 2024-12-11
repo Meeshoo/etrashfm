@@ -38,17 +38,15 @@ app.MapGet("/getcurrentvideotime", ([FromServices] DJ dj) =>
     return currentSongTimestamp;
 });
 
-app.MapGet("/getqueue", ([FromServices] DJ dj) =>
-{
-    IEnumerable<string> queue = dj.GetQueue();
-    List<String> queue_list = queue.ToList();
-    if (queue_list.Count != 0) {
-            queue_list.RemoveAt(0); // Remove currently playing song
-    }
+app.MapGet("/getqueue", ([FromServices] DJ dj) => {
 
     string result = @"<br><br><h2 id=""queue_title"">Queue</h2><br>";
 
-    foreach (var song in queue_list) {
+    IEnumerable<string> queue = dj.GetQueue();
+    List<String> queue_list = queue.ToList();
+    if (queue_list.Count != 0) {
+        queue_list.RemoveAt(0); // Remove currently playing song
+        foreach (var song in queue_list) {
         result += $@"
             <div class=""queue_entry"">
             <p>{song}</p>
@@ -59,6 +57,9 @@ app.MapGet("/getqueue", ([FromServices] DJ dj) =>
             </div>
             <br>
             ";
+        }
+    } else {
+        result += "<p>Queue is empy 🤷</p>";
     }
 
     return result;
