@@ -47,9 +47,7 @@ app.MapGet("/getqueue", ([FromServices] DJ dj) => {
     if (queue.Count() < 2) {
         result += "<p>Queue is empy 🤷</p>";
     } else {
-        List<String> queue_list = queue.ToList();
-        queue_list.RemoveAt(0); // Remove currently playing song
-        foreach (var song in queue_list) {
+        foreach (var song in queue) {
             result += $@"
                 <div class=""queue_entry"">
                 <p>{song}</p>

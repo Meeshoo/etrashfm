@@ -48,8 +48,6 @@ public class DJ : IHostedService, IDisposable {
 
             Console.WriteLine("Song ended");
 
-            database.Execute($"DELETE FROM [queue] WHERE (video_id = \"{currentSongID}\")");
-
             int numberOfSongsInQueue = database.Query<string>("SELECT [video_id] FROM [queue]").Count();
 
             if (numberOfSongsInQueue == 0){
@@ -58,6 +56,8 @@ public class DJ : IHostedService, IDisposable {
             } else {
                 currentSongID = database.Query<string>("SELECT [video_id] FROM [queue] ORDER BY queue_id LIMIT 1").First();
             }
+
+            database.Execute($"DELETE FROM [queue] WHERE (video_id = \"{currentSongID}\")");
 
             var request = yt.Videos.List("contentDetails");
             request.Id = currentSongID;
