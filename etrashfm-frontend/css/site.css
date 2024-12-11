@@ -7,10 +7,10 @@ h1 {
   margin-bottom: 20px;
 }
 
-h1 {
+h2 {
   color: white;
   font-family: 'Tomorrow', sans-serif;
-  font-size: 24px;
+  font-size: 20px;
   text-align: center;
 }
 
@@ -36,7 +36,7 @@ body {
 p {
   margin-top: 10px;
   color: white;
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
 }
 
