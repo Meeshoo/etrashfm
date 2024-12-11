@@ -44,7 +44,7 @@ app.MapGet("/getqueue", ([FromServices] DJ dj) => {
 
     IEnumerable<string> queue = dj.GetQueue();
 
-    if (queue.Count() < 2) {
+    if (!queue.Any()) {
         result += "<p>Queue is empy 🤷</p>";
     } else {
         foreach (var song in queue) {
