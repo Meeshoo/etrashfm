@@ -21,15 +21,18 @@
         <div>
             <button hx-get="http://localhost:8000/skipcurrentsong"
                 hx-trigger="click"
-                hx-swap="none">
+                hx-target="#player_notifications"
+                hx-swap="innerHTML">
                 Skip current song
             </button>
             <button hx-get="http://localhost:8000/forgetcurrentsong"
                 hx-trigger="click"
-                hx-swap="none">
+                hx-target="#player_notifications"
+                hx-swap="innerHTML">
                 Forget current song
             </button>
         </div>
+        <p id="player_notifications"></p>
 
         <br>
         <div id="queue_song_box">

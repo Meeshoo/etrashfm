@@ -68,7 +68,7 @@ app.MapGet("/skipcurrentsong", ([FromServices] DJ dj) =>
 {
     dj.SkipCurrentSong();
 
-    //return;
+    return "Skipped, please refresh";
 });
 
 
@@ -88,11 +88,14 @@ app.MapPost("/removesongfromqueue", ([FromQuery] string video_id, [FromServices]
 
         dj.RemoveSongFromQueue(video_id);
 
+
 }).DisableAntiforgery();
 
 app.MapGet("/forgetcurrentsong", ([FromServices] DJ dj) => {
 
         dj.ForgetCurrentSong();
+
+        return "forgo 💀";
 
 }).DisableAntiforgery();
 
