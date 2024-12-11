@@ -90,7 +90,7 @@ app.MapPost("/removesongfromqueue", ([FromQuery] string video_id, [FromServices]
 
 }).DisableAntiforgery();
 
-app.MapPost("/forgetcurrentsong", ([FromServices] DJ dj) => {
+app.MapGet("/forgetcurrentsong", ([FromServices] DJ dj) => {
 
         dj.ForgetCurrentSong();
 
