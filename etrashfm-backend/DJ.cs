@@ -47,6 +47,7 @@ public class DJ : IHostedService, IDisposable {
         if (currentTime >= currentSongDuration) {
 
             Console.WriteLine("Song ended");
+            currentTime = 0;
 
             int numberOfSongsInQueue = database.Query<string>("SELECT [video_id] FROM [queue]").Count();
 
@@ -72,8 +73,6 @@ public class DJ : IHostedService, IDisposable {
             {
                 play_count  = playcount
             });
-
-            currentTime = 0;
         }
 
         currentTime++; 
