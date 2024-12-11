@@ -129,6 +129,10 @@ public class DJ : IHostedService, IDisposable {
         database.Execute($"DELETE FROM [backlog] WHERE (video_id = \"{videoID}\")");
     }
 
+    public void ForgetCurrentSong(){
+        database.Execute($"DELETE FROM [backlog] WHERE (video_id = \"{currentSongID}\")");
+    }
+
     public Task StopAsync(CancellationToken stoppingToken) {
 
         _timer?.Change(Timeout.Infinite, 0);

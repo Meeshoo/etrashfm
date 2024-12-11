@@ -18,10 +18,16 @@
 
         <script src="js/bundle.js"></script>
 
-        <button hx-get="http://localhost:8000/skipcurrentsong"
-            hx-trigger="click">
-            Skip current song
-        </button>
+        <div>
+            <button hx-get="http://localhost:8000/skipcurrentsong"
+                hx-trigger="click">
+                Skip current song
+            </button>
+            <button hx-get="http://localhost:8000/forgetcurrentsong"
+                hx-trigger="click">
+                Forget current song
+            </button>
+        </div>
 
         <br>
         <div id="queue_song_box">

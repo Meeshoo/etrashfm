@@ -87,6 +87,12 @@ app.MapPost("/removesongfromqueue", ([FromQuery] string video_id, [FromServices]
 
 }).DisableAntiforgery();
 
+app.MapPost("/forgetcurrentsong", ([FromServices] DJ dj) => {
+
+        dj.ForgetCurrentSong();
+
+}).DisableAntiforgery();
+
 app.MapPost("/forgetsong", ([FromForm] string youtubeVideoURL, [FromServices] DJ dj) => {
 
     if (validateUrl(youtubeVideoURL)) {
