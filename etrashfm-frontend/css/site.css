@@ -78,6 +78,6 @@ a {
 }
 
 .queue_entry {
-  display: inline;
+  display: flex;
 }
 
