@@ -36,9 +36,9 @@
 
         <br>
         <div id="queue_song_box">
-            <form hx-post="http://localhost:8000/addsongtoqueue" hx-target="#queue_song_result" hx-swap="innerHTML" hx-on::after-request="this.value=''">
+            <form hx-post="http://localhost:8000/addsongtoqueue" hx-target="#queue_song_result" hx-swap="innerHTML">
                 <div>
-                    <input name="youtubeVideoURL" type="text" placeholder="Youtube Link">
+                    <input name="youtubeVideoURL" type="text" placeholder="Youtube Link" onsubmit="this.reset()">
                 </div>
             <button>Queue song</button>
             </form>
