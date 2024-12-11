@@ -80,14 +80,15 @@ public class DJ : IHostedService, IDisposable {
 
     public void AddSongToQueue(String videoID) {
 
-        // var request = yt.Videos.List("");
-        // request.Id = videoID;
-        // var result = request.Execute();
-        // string songTitle = Convert.ToString(XmlConvert.ToTimeSpan(result.Items.First().Snippet.Title));
+        var request = yt.Videos.List("snippet");
+        request.Id = videoID;
+        var result = request.Execute();
+        string songTitle = result.Items.First().Snippet.Title;
 
-        database.Execute("INSERT INTO [queue] VALUES(NULL, @video_id)", new
+        database.Execute("INSERT INTO [queue] VALUES(NULL, @video_id, @video_title)", new
             {
                 video_id = videoID,
+                video_title = songTitle
             });
         Console.WriteLine($"Song added with ID: {videoID}");
 
@@ -116,7 +117,7 @@ public class DJ : IHostedService, IDisposable {
     }
 
     public IEnumerable<string> GetQueue(){
-        IEnumerable<string> queue = database.Query<string>("SELECT [video_id] FROM [queue]");
+        IEnumerable<string> queue = database.Query<string>("SELECT [video_title] FROM [queue]");
         return queue;
     }
 
