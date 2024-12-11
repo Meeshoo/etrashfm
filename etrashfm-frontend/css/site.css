@@ -77,3 +77,7 @@ a {
   margin: auto;
 }
 
+.queue_entry {
+  display: inline;
+}
+

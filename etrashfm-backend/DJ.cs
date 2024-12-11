@@ -31,6 +31,8 @@ public class DJ : IHostedService, IDisposable {
         Console.WriteLine("NEW");
         // ADD TEST SONGS
         // AddSongToQueue("Oly6ayyckZI");
+        // AddSongToQueue("xj3SZv5lle4");
+        // AddSongToQueue("xX8p9l0UTsQ");
     }
 
     public Task StartAsync(CancellationToken stoppingToken) {
@@ -78,6 +80,11 @@ public class DJ : IHostedService, IDisposable {
     }
 
     public void AddSongToQueue(String videoID) {
+
+        // var request = yt.Videos.List("");
+        // request.Id = videoID;
+        // var result = request.Execute();
+        // string songTitle = Convert.ToString(XmlConvert.ToTimeSpan(result.Items.First().Snippet.Title));
 
         database.Execute("INSERT INTO [queue] VALUES(NULL, @video_id)", new
             {

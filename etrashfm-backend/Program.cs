@@ -11,7 +11,9 @@ builder.Services.AddCors();
 var app = builder.Build();
 
 string BASE_URL = "BaseUrlGoesHerePlease";
-//string BASE_URL = "http://127.0.0.1:5500";
+string API_URL = "APIUrlGoesHerePlease";
+// string BASE_URL = "http://127.0.0.1:5500";
+// string API_URL = "http://127.0.0.1:8000";
 
 
 app.UseCors( x => x
@@ -41,7 +43,16 @@ app.MapGet("/getqueue", ([FromServices] DJ dj) =>
     string result = @"<br><br><h2 id=""queue_title"">Queue</h2><br>";
 
     foreach (var song in queue) {
-        result += $"<p>{song}</p><br>";
+        result += $@"
+            <div class=""queue_entry"">
+            <p>{song}</p>
+            <button hx-get=""{API_URL}/removesongfromqueue?video_id={song}""
+                hx-trigger=""click"">
+                Remove
+            </button>
+            </div>
+            <br>
+            ";
     }
 
     return result;
