@@ -96,6 +96,16 @@ a {
   display: flex;
 }
 
+.message {
+  color: blueviolet;
+  opacity: 0;
+}
+
+.message.htmx-settling {
+  opacity: 1;
+  transition: opacity 50ms ease-in;
+}
+
 /* BUTTONS */
 .thin_button {
   padding-top: 0rem;

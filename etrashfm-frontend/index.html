@@ -24,7 +24,7 @@
         </div>
 
         <div id="vibe_selector">
-            <form hx-post="http://localhost:8000/setcurrentvibe" hx-target="#vibe_result" hx-swap="innerHTML">
+            <form hx-post="http://localhost:8000/setcurrentvibe" hx-target="#vibe_result" hx-swap="innerHTML settle:3s">
                 <label for="vibe">Choose a vibe:</label>
                 <select name="vibe">
                     <option value="any">Any</option>
@@ -40,7 +40,7 @@
                 </select>
                 <button class="thin_button">Vibe!</button>
             </form>
-            <p id="vibe_result"></p>
+            <p class="message" id="vibe_result"></p>
         </div>
 
         <div id="player"></div>
@@ -48,7 +48,7 @@
         <script src="js/bundle.js"></script>
 
         <div id="vibe_updater">
-            <form hx-post="http://localhost:8000/submitvibe" hx-target="#vibe_submit_result" hx-swap="innerHTML">
+            <form hx-post="http://localhost:8000/submitvibe" hx-target="#vibe_submit_result" hx-swap="innerHTML settle:3s">
                 <label for="vibe">Update vibe for current song:</label>
                 <select name="vibe">
                     <option value="christmas">Christmas</option>
@@ -63,34 +63,34 @@
                 </select>
                 <button class="thin_button">Send</button>
             </form>
-            <p id="vibe_submit_result"></p>
+            <p class="message" id="vibe_submit_result"></p>
         </div>
 
         <div>
             <button hx-get="http://localhost:8000/skipcurrentsong"
                 hx-trigger="click"
                 hx-target="#player_notifications"
-                hx-swap="innerHTML">
+                hx-swap="innerHTML settle:3s">
                 Skip current song
             </button>
             <button hx-get="http://localhost:8000/forgetcurrentsong"
                 hx-trigger="click"
                 hx-target="#player_notifications"
-                hx-swap="innerHTML">
+                hx-swap="innerHTML settle:3s">
                 Forget current song
             </button>
         </div>
-        <p id="player_notifications"></p>
+        <p class="message" id="player_notifications"></p>
 
         <br>
         <div id="queue_song_box">
-            <form hx-post="http://localhost:8000/addsongtoqueue" hx-target="#queue_song_result" hx-swap="innerHTML">
+            <form hx-post="http://localhost:8000/addsongtoqueue" hx-target="#queue_song_result" hx-swap="innerHTML settle:3s">
                 <div>
-                    <input name="youtubeVideoURL" type="text" placeholder="Youtube Link" onsubmit="this.reset()">
+                    <input name="youtubeVideoURL" type="text" placeholder="Youtube Link" hx-on::after-request="this.reset()">
                 </div>
             <button>Queue song</button>
             </form>
-            <p id="queue_song_result"></p>
+            <p class="message" id="queue_song_result"></p>
         </div>
 
         <div id="queue"
