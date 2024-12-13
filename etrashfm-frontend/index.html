@@ -14,9 +14,57 @@
 
         <h1>eTrash FM</h1>
 
+        <div id="vibe_check"
+            hx-get="http://localhost:8000/getcurrentvibe"
+            hx-target="#the_vibe"
+            hx-swap="innerHTML"
+            hx-trigger="load, every 5s">
+            <p id="vibe_check">Current vibe:&nbsp;</p>
+            <p id="the_vibe"></p>
+        </div>
+
+        <div id="vibe_selector">
+            <form hx-post="http://localhost:8000/setcurrentvibe" hx-target="#vibe_result" hx-swap="innerHTML">
+                <label for="vibe">Choose a vibe:</label>
+                <select name="vibe">
+                    <option value="any">Any</option>
+                    <option value="christmas">Christmas</option>
+                    <option value="dance">Dance / Electronic / Pog</option>
+                    <option value="punk">Punk / Ska</option>
+                    <option value="metal">Metal</option>
+                    <option value="funk">Funk</option>
+                    <option value="indie">Indie / Rock</option>
+                    <option value="chill">Chill</option>
+                    <option value="real">Real</option>
+                    <option value="meme">Meme</option>
+                </select>
+                <button class="thin_button">Vibe!</button>
+            </form>
+            <p id="vibe_result"></p>
+        </div>
+
         <div id="player"></div>
 
         <script src="js/bundle.js"></script>
+
+        <div id="vibe_updater">
+            <form hx-post="http://localhost:8000/submitvibe" hx-target="#vibe_submit_result" hx-swap="innerHTML">
+                <label for="vibe">Update vibe for current song:</label>
+                <select name="vibe">
+                    <option value="christmas">Christmas</option>
+                    <option value="dance">Dance / Electronic / Pog</option>
+                    <option value="punk">Punk / Ska</option>
+                    <option value="metal">Metal</option>
+                    <option value="funk">Funk</option>
+                    <option value="indie">Indie / Rock</option>
+                    <option value="chill">Chill</option>
+                    <option value="real">Real</option>
+                    <option value="meme">Meme</option>
+                </select>
+                <button class="thin_button">Send</button>
+            </form>
+            <p id="vibe_submit_result"></p>
+        </div>
 
         <div>
             <button hx-get="http://localhost:8000/skipcurrentsong"

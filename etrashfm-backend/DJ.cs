@@ -11,6 +11,7 @@ public class DJ : IHostedService, IDisposable {
     private static string currentSongID;
     private static int currentSongDuration = 0;
     private static int currentTime = 1;
+    private static string currentVibe = "any";
     private readonly IConfiguration configuration;
     readonly string youtubeApiKey;
     YouTubeService yt;
@@ -53,7 +54,12 @@ public class DJ : IHostedService, IDisposable {
 
             if (numberOfSongsInQueue == 0){
                 Console.WriteLine("No songs left, grabbing random from DB");
-                currentSongID = database.Query<string>("SELECT [video_id] FROM [backlog] ORDER BY RANDOM() LIMIT 1").First();
+                if (currentVibe == "any") {
+                    currentSongID = database.Query<string>("SELECT [video_id] FROM [backlog] ORDER BY RANDOM() LIMIT 1").First();
+                } else {
+                    currentSongID = database.Query<string>($"SELECT [video_id] FROM [backlog] WHERE vibe = \"{currentVibe}\" ORDER BY RANDOM() LIMIT 1").FirstOrDefault("_YyzVXQyE_8");
+                }
+                
             } else {
                 currentSongID = database.Query<string>("SELECT [video_id] FROM [queue] ORDER BY queue_id LIMIT 1").First();
 
@@ -132,6 +138,18 @@ public class DJ : IHostedService, IDisposable {
 
     public void ForgetCurrentSong(){
         database.Execute($"DELETE FROM [backlog] WHERE (video_id = \"{currentSongID}\")");
+    }
+
+    public string GetCurrentVibe(){
+        return currentVibe;
+    }
+
+    public string SetCurrentVibe(string vibe){
+        return currentVibe = vibe;
+    }
+
+    public void SubmitVibe(string vibe){
+        database.Execute($"UPDATE [backlog] SET vibe=\"{vibe}\" WHERE video_id = \"{currentSongID}\"");
     }
 
     public Task StopAsync(CancellationToken stoppingToken) {

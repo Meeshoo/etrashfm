@@ -54,7 +54,7 @@ app.MapGet("/getqueue", ([FromServices] DJ dj) => {
             result += $@"
                 <div class=""queue_entry"">
                 <p>{song}</p>
-                <button hx-post=""{API_URL}/removesongfromqueue?video_id={id}""
+                <button class=""thin_button"" hx-post=""{API_URL}/removesongfromqueue?video_id={id}""
                     hx-trigger=""click"">
                     Remove
                 </button>
@@ -100,6 +100,30 @@ app.MapGet("/forgetcurrentsong", ([FromServices] DJ dj) => {
         dj.ForgetCurrentSong();
 
         return "forgo 💀";
+
+}).DisableAntiforgery();
+
+app.MapGet("/getcurrentvibe", ([FromServices] DJ dj) => {
+
+        string theVibe = dj.GetCurrentVibe();
+
+        return theVibe;
+
+}).DisableAntiforgery();
+
+app.MapPost("/setcurrentvibe", ([FromServices] DJ dj, [FromForm] string vibe) => {
+
+        string theVibe = dj.SetCurrentVibe(vibe);
+
+        return theVibe + " type beat";
+
+}).DisableAntiforgery();
+
+app.MapPost("/submitvibe", ([FromServices] DJ dj, [FromForm] string vibe) => {
+
+        dj.SubmitVibe(vibe);
+
+        return "Vibe updated (I hope)";
 
 }).DisableAntiforgery();
 

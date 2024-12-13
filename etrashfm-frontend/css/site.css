@@ -69,6 +69,14 @@ a {
 }
 
 /* UI */
+#vibe_check {
+  display: inline-flex;
+}
+
+#vibe_selector {
+  display: table;
+}
+
 #queue_song_box {
   text-align: center;
   margin: auto;
@@ -88,3 +96,8 @@ a {
   display: flex;
 }
 
+/* BUTTONS */
+.thin_button {
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+}
