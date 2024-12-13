@@ -130,10 +130,6 @@ public class DJ : IHostedService, IDisposable {
          currentTime = currentSongDuration;
     }
 
-    public void ForgetSong(string videoID){
-        database.Execute($"DELETE FROM [backlog] WHERE (video_id = \"{videoID}\")");
-    }
-
     public void ForgetCurrentSong(){
         database.Execute($"DELETE FROM [backlog] WHERE (video_id = \"{currentSongID}\")");
     }

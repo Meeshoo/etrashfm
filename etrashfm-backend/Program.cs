@@ -103,18 +103,6 @@ app.MapGet("/forgetcurrentsong", ([FromServices] DJ dj) => {
 
 }).DisableAntiforgery();
 
-app.MapPost("/forgetsong", ([FromForm] string youtubeVideoURL, [FromServices] DJ dj) => {
-
-    if (validateUrl(youtubeVideoURL)) {
-        string id = getIdFromUrl(youtubeVideoURL);
-        dj.ForgetSong(id);
-        return "Ye shall never hear it again (probably)";
-    } else {
-        return "Bad link buddy";
-    }
-
-}).DisableAntiforgery();
-
 string getIdFromUrl(string youtubeVideoURL) {
     int questionMarkPosition = youtubeVideoURL.IndexOf('?');
     string result = youtubeVideoURL.Substring(questionMarkPosition + 3, 11);
