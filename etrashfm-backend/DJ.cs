@@ -63,12 +63,14 @@ public class DJ : IHostedService, IDisposable {
             } else {
                 currentSongID = database.Query<string>("SELECT [video_id] FROM [queue] ORDER BY queue_id LIMIT 1").First();
 
-                int playcount = database.Query<int>($"SELECT [play_count] FROM [backlog] WHERE video_id = \"{currentSongID}\"").First();
-                playcount++;
-                database.Execute($"UPDATE [backlog] SET play_count = @play_count WHERE video_id = \"{currentSongID}\"", new
+                int playcount = database.Query<int>($"SELECT [play_count] FROM [backlog] WHERE video_id = \"{currentSongID}\"").FirstOrDefault(-1);
+                if (playcount != -1) {
+                    playcount++;
+                    database.Execute($"UPDATE [backlog] SET play_count = @play_count WHERE video_id = \"{currentSongID}\"", new
                 {
                     play_count  = playcount
                 });
+                }
             }
 
             database.Execute($"DELETE FROM [queue] WHERE (video_id = \"{currentSongID}\")");
