@@ -56,6 +56,13 @@ public class DJ : IHostedService, IDisposable {
                 currentSongID = database.Query<string>("SELECT [video_id] FROM [backlog] ORDER BY RANDOM() LIMIT 1").First();
             } else {
                 currentSongID = database.Query<string>("SELECT [video_id] FROM [queue] ORDER BY queue_id LIMIT 1").First();
+
+                int playcount = database.Query<int>($"SELECT [play_count] FROM [backlog] WHERE video_id = \"{currentSongID}\"").First();
+                playcount++;
+                database.Execute($"UPDATE [backlog] SET play_count = @play_count WHERE video_id = \"{currentSongID}\"", new
+                {
+                    play_count  = playcount
+                });
             }
 
             database.Execute($"DELETE FROM [queue] WHERE (video_id = \"{currentSongID}\")");
@@ -66,13 +73,6 @@ public class DJ : IHostedService, IDisposable {
             currentSongDuration = Convert.ToInt16(XmlConvert.ToTimeSpan(result.Items.First().ContentDetails.Duration).TotalSeconds);
 
             Console.WriteLine($"Now playing: {currentSongID} with duration {currentSongDuration}s");
-
-            int playcount = database.Query<int>($"SELECT [play_count] FROM [backlog] WHERE video_id = \"{currentSongID}\"").First();
-            playcount++;
-            database.Execute($"UPDATE [backlog] SET play_count = @play_count WHERE video_id = \"{currentSongID}\"", new
-            {
-                play_count  = playcount
-            });
         }
 
         currentTime++; 
@@ -127,7 +127,7 @@ public class DJ : IHostedService, IDisposable {
     }
 
     public void SkipCurrentSong(){
-         currentTime = currentSongDuration - 2;
+         currentTime = currentSongDuration;
     }
 
     public void ForgetSong(string videoID){
