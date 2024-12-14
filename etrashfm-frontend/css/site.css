@@ -3,7 +3,7 @@ h1 {
   font-family: 'Tomorrow', sans-serif;
   font-size: 60px;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 20px;
 }
 
@@ -113,6 +113,13 @@ a {
 }
 
 /* BACKLOG */
+#backlog_button {
+  display: block;
+  align-self:start;
+  margin-left: 1rem;
+  height: 1rem;
+}
+
 table {
   border-collapse: collapse;
 }
