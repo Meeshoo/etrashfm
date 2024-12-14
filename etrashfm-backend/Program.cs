@@ -137,7 +137,7 @@ app.MapGet("/getbacklog", ([FromServices] DJ dj) => {
         foreach (var song in songsInBacklog) {
             backlogHTML += $@"<tr><td>{song.title}</td><td>{song.vibe}</td><td>{song.play_count}</td><td>
                     <div id=""vibe_updater"">
-                        <form hx-post=""http://localhost:8000/submitvibe?video_id={song.video_id}"" hx-target=""#vibe_submit_result"" hx-swap=""innerHTML settle:3s"">
+                        <form hx-post=""http://127.0.0.1:8000/submitvibe?video_id={song.video_id}"" hx-target=""#vibe_submit_result"" hx-swap=""innerHTML settle:3s"">
                             <label for=""vibe""></label>
                             <select name=""vibe"">
                                 <option value=""christmas"">Christmas</option>
