@@ -92,7 +92,7 @@ public class DJ : IHostedService, IDisposable {
         var result = request.Execute();
         string songTitle = result.Items.First().Snippet.Title ?? "ERROR GETTING TITLE (soz)";
 
-        var request2 = yt.Videos.List("contentdetails");
+        var request2 = yt.Videos.List("contentDetails");
         request2.Id = videoID;
         var result2 = request2.Execute();
         int songDuration = Convert.ToInt16(XmlConvert.ToTimeSpan(result2.Items.First().ContentDetails.Duration).TotalSeconds);
