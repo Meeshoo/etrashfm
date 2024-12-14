@@ -17,6 +17,20 @@
         </form>
     </div>
 
+
+<h2>Stats</h2>
+<div id="stats">
+    <div id="stats_backlog_count"
+        hx-get="http://localhost:8000/getbacklogcount"
+        hx-target="#stats_backlog_count_result"
+        hx-swap="innerHTML"
+        hx-trigger="load">
+        <p>Songs in backlog:&nbsp;</p>
+        <p id="stats_backlog_count_result"></p>
+    </div>
+</div>
+
+<h2>Backlog</h2>
 <div id="backlog"
     hx-get="http://localhost:8000/getbacklog"
     hx-target="#backlog"

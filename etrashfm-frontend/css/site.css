@@ -112,7 +112,7 @@ a {
   padding-bottom: 0rem;
 }
 
-/* BACKLOG */
+/* ADMIN */
 #nav_button {
   display: block;
   align-self:start;
@@ -128,4 +128,9 @@ table, th,td {
   padding: 1rem;
   border: 1px solid;
   text-align: center;
+}
+
+#stats_backlog_count {
+  display: inline-flex;
+  margin-bottom: 2rem;
 }

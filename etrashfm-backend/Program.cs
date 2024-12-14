@@ -170,6 +170,14 @@ app.MapGet("/fillbacklog", ([FromServices] DJ dj) => {
 
 }).DisableAntiforgery();
 
+app.MapGet("/getbacklogcount", ([FromServices] DJ dj) => {
+
+    int songCount = dj.GetBacklogCount();
+
+    return songCount;
+
+}).DisableAntiforgery();
+
 string getIdFromUrl(string youtubeVideoURL) {
     int questionMarkPosition = youtubeVideoURL.IndexOf('?');
     string result = youtubeVideoURL.Substring(questionMarkPosition + 3, 11);

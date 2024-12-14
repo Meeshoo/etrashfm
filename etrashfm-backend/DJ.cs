@@ -147,6 +147,11 @@ public class DJ : IHostedService, IDisposable {
         return backlog;
     }
 
+    public int GetBacklogCount(){
+        int backlogCount = database.Query<int>("SELECT COUNT(*) FROM [backlog]").First();
+        return backlogCount;
+    }
+
     public void SkipCurrentSong(){
          currentTime = currentSongDuration;
     }
