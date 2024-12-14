@@ -49,44 +49,46 @@
             <p class="message" id="vibe_result"></p>
         </div>
 
-        <div id="player"></div>
+        <div id="player_container">
+            <div>
+                <div id="player"></div>
+                <div id="player_controls">
+                    <button hx-get="http://localhost:8000/skipcurrentsong"
+                        hx-trigger="click"
+                        hx-target="#player_notifications"
+                        hx-swap="innerHTML settle:3s">
+                        Skip current song
+                    </button>
+                    <button hx-get="http://localhost:8000/forgetcurrentsong"
+                        hx-trigger="click"
+                        hx-target="#player_notifications"
+                        hx-swap="innerHTML settle:3s">
+                        Forget current song
+                    </button>
+                </div>
+                <p class="message" id="player_notifications"></p>
+            </div>
+            <div id="queue_container">
+
+                <div id="queue"
+                    hx-get="http://localhost:8000/getqueue"
+                    hx-target="#queue"
+                    hx-swap="innerHTML"
+                    hx-trigger="load, every 5s">
+                </div>
+                <div id="queue_song_box">
+                    <form hx-post="http://localhost:8000/addsongtoqueue" hx-target="#queue_song_result" hx-swap="innerHTML settle:3s">
+                        <div>
+                            <input name="youtubeVideoURL" type="text" placeholder="Youtube Link" hx-on::after-request="this.reset()">
+                        </div>
+                    <button>Queue song</button>
+                    </form>
+                    <p class="message" id="queue_song_result"></p>
+                </div>
+            </div>
+        </div>
 
         <script src="js/bundle.js"></script>
-
-        <div>
-            <button hx-get="http://localhost:8000/skipcurrentsong"
-                hx-trigger="click"
-                hx-target="#player_notifications"
-                hx-swap="innerHTML settle:3s">
-                Skip current song
-            </button>
-            <button hx-get="http://localhost:8000/forgetcurrentsong"
-                hx-trigger="click"
-                hx-target="#player_notifications"
-                hx-swap="innerHTML settle:3s">
-                Forget current song
-            </button>
-        </div>
-        <p class="message" id="player_notifications"></p>
-
-        <br>
-        <div id="queue_song_box">
-            <form hx-post="http://localhost:8000/addsongtoqueue" hx-target="#queue_song_result" hx-swap="innerHTML settle:3s">
-                <div>
-                    <input name="youtubeVideoURL" type="text" placeholder="Youtube Link" hx-on::after-request="this.reset()">
-                </div>
-            <button>Queue song</button>
-            </form>
-            <p class="message" id="queue_song_result"></p>
-        </div>
-
-        <div id="queue"
-            hx-get="http://localhost:8000/getqueue"
-            hx-target="#queue"
-            hx-swap="innerHTML"
-            hx-trigger="load, every 5s">
-        </div>
-
 
     </body>
 </html>

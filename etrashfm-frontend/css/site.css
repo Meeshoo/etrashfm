@@ -65,7 +65,22 @@ a {
 /* Player */
 #player {
   background-color: blueviolet;
-  padding: 2rem;
+  padding: 1rem;
+}
+
+#player_container {
+  display:inline-flex;
+}
+
+#queue_container {
+  justify-content: center;
+  margin-left: 1rem;
+}
+
+#player_controls {
+  display: flex;
+  justify-content: center;
+  margin: auto;
 }
 
 /* UI */
