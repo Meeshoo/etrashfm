@@ -60,8 +60,7 @@ public class DJ : IHostedService, IDisposable {
                 } else {
                     currentSongID = database.Query<string>($"SELECT [video_id] FROM [backlog] WHERE vibe = \"{currentVibe}\" ORDER BY RANDOM() LIMIT 1").FirstOrDefault("_YyzVXQyE_8");
                 }
-                //currentSongDuration = database.Query<int>($"SELECT [duration] FROM [backlog] WHERE video_id = \"{currentSongID}\" LIMIT 1").FirstOrDefault(100);
-                currentSongDuration = 100;
+                currentSongDuration = database.Query<int>($"SELECT [duration] FROM [backlog] WHERE video_id = \"{currentSongID}\" LIMIT 1").FirstOrDefault(100);
                 
             } else {
                 currentSongID = database.Query<string>("SELECT [video_id] FROM [queue] ORDER BY queue_id LIMIT 1").First();
@@ -168,9 +167,8 @@ public class DJ : IHostedService, IDisposable {
         database.Execute($"UPDATE [backlog] SET vibe=\"{vibe}\" WHERE video_id = \"{video_id}\"");
     }
 
-    // TEMP JUST TO FILL IN BACKLOG
     public void FillBacklogTitle() {
-        IEnumerable<Song> backlog = database.Query<Song>("SELECT * FROM [backlog]");
+        IEnumerable<Song> backlog = database.Query<Song>("SELECT * FROM [backlog] WHERE title = NULL");
         foreach (var song in backlog) {
             var request = yt.Videos.List("snippet");
             request.Id = song.video_id;
@@ -181,7 +179,7 @@ public class DJ : IHostedService, IDisposable {
     }
 
     public void FillBacklogDuration() {
-        IEnumerable<Song> backlog = database.Query<Song>("SELECT * FROM [backlog]");
+        IEnumerable<Song> backlog = database.Query<Song>("SELECT * FROM [backlog] WHERE duration = NULL");
         foreach (var song in backlog) {
         var request2 = yt.Videos.List("contentDetails");
         request2.Id = song.video_id;
