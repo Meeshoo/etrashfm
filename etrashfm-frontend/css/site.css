@@ -113,7 +113,7 @@ a {
 }
 
 /* BACKLOG */
-#backlog_button {
+#nav_button {
   display: block;
   align-self:start;
   margin-left: 1rem;
