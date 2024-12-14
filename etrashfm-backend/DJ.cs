@@ -4,6 +4,7 @@ using System.Xml;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Dapper;
+using System.ComponentModel;
 
 public class DJ : IHostedService, IDisposable {
 
@@ -59,9 +60,13 @@ public class DJ : IHostedService, IDisposable {
                 } else {
                     currentSongID = database.Query<string>($"SELECT [video_id] FROM [backlog] WHERE vibe = \"{currentVibe}\" ORDER BY RANDOM() LIMIT 1").FirstOrDefault("_YyzVXQyE_8");
                 }
+                //currentSongDuration = database.Query<int>($"SELECT [duration] FROM [backlog] WHERE video_id = \"{currentSongID}\" LIMIT 1").FirstOrDefault(100);
+                currentSongDuration = 100;
                 
             } else {
                 currentSongID = database.Query<string>("SELECT [video_id] FROM [queue] ORDER BY queue_id LIMIT 1").First();
+
+                currentSongDuration = database.Query<int>($"SELECT [duration] FROM [queue] WHERE video_id = \"{currentSongID}\" LIMIT 1").First();
 
                 int playcount = database.Query<int>($"SELECT [play_count] FROM [backlog] WHERE video_id = \"{currentSongID}\"").FirstOrDefault(-1);
                 if (playcount != -1) {
@@ -74,11 +79,6 @@ public class DJ : IHostedService, IDisposable {
             }
 
             database.Execute($"DELETE FROM [queue] WHERE (video_id = \"{currentSongID}\")");
-
-            var request = yt.Videos.List("contentDetails");
-            request.Id = currentSongID;
-            var result = request.Execute();
-            currentSongDuration = Convert.ToInt16(XmlConvert.ToTimeSpan(result.Items.First().ContentDetails.Duration).TotalSeconds);
 
             Console.WriteLine($"Now playing: {currentSongID} with duration {currentSongDuration}s");
         }
@@ -93,10 +93,16 @@ public class DJ : IHostedService, IDisposable {
         var result = request.Execute();
         string songTitle = result.Items.First().Snippet.Title ?? "ERROR GETTING TITLE (soz)";
 
-        database.Execute("INSERT INTO [queue] VALUES(NULL, @video_id, @video_title)", new
+        var request2 = yt.Videos.List("contentdetails");
+        request2.Id = videoID;
+        var result2 = request2.Execute();
+        int songDuration = Convert.ToInt16(XmlConvert.ToTimeSpan(result2.Items.First().ContentDetails.Duration).TotalSeconds);
+
+        database.Execute("INSERT INTO [queue] VALUES(NULL, @video_id, @video_title, @duration)", new
             {
                 video_id = videoID,
-                video_title = songTitle
+                video_title = songTitle,
+                duration = songDuration
             });
         Console.WriteLine($"Song added with ID: {videoID}");
 
@@ -104,10 +110,13 @@ public class DJ : IHostedService, IDisposable {
         Console.WriteLine($"Play count: {song.Count()}");
         
         if (!song.Any()) {
-            database.Execute("INSERT INTO [backlog] VALUES(@video_id, @play_count)", new
+            database.Execute("INSERT INTO [backlog] VALUES(@video_id, @play_count, @vibe, @title, @duration)", new
             {
                 video_id = videoID,
-                play_count  = 0
+                play_count  = 0,
+                vibe = "",
+                title = songTitle,
+                currentSongDuration = songDuration
             });
         }
     }
@@ -134,6 +143,11 @@ public class DJ : IHostedService, IDisposable {
         return queue;
     }
 
+    public IEnumerable<Song> GetBacklog(){
+        IEnumerable<Song> backlog = database.Query<Song>("SELECT * FROM [backlog]");
+        return backlog;
+    }
+
     public void SkipCurrentSong(){
          currentTime = currentSongDuration;
     }
@@ -150,8 +164,31 @@ public class DJ : IHostedService, IDisposable {
         return currentVibe = vibe;
     }
 
-    public void SubmitVibe(string vibe){
-        database.Execute($"UPDATE [backlog] SET vibe=\"{vibe}\" WHERE video_id = \"{currentSongID}\"");
+    public void SubmitVibe(string vibe, string video_id){
+        database.Execute($"UPDATE [backlog] SET vibe=\"{vibe}\" WHERE video_id = \"{video_id}\"");
+    }
+
+    // TEMP JUST TO FILL IN BACKLOG
+    public void FillBacklogTitle() {
+        IEnumerable<Song> backlog = database.Query<Song>("SELECT * FROM [backlog]");
+        foreach (var song in backlog) {
+            var request = yt.Videos.List("snippet");
+            request.Id = song.video_id;
+            var result = request.Execute();
+            string songTitle = result.Items.First().Snippet.Title ?? "ERROR GETTING TITLE (soz)";
+            database.Execute($"UPDATE [backlog] SET title = \"{songTitle}\" WHERE video_id = \"{song.video_id}\"");
+        }
+    }
+
+    public void FillBacklogDuration() {
+        IEnumerable<Song> backlog = database.Query<Song>("SELECT * FROM [backlog]");
+        foreach (var song in backlog) {
+        var request2 = yt.Videos.List("contentDetails");
+        request2.Id = song.video_id;
+        var result2 = request2.Execute();
+        int songDuration = Convert.ToInt16(XmlConvert.ToTimeSpan(result2.Items.First().ContentDetails.Duration).TotalSeconds);
+            database.Execute($"UPDATE [backlog] SET duration = \"{songDuration}\" WHERE video_id = \"{song.video_id}\"");
+        }
     }
 
     public Task StopAsync(CancellationToken stoppingToken) {
@@ -165,4 +202,14 @@ public class DJ : IHostedService, IDisposable {
     public void Dispose() {
         _timer?.Dispose();
     }
+
+    public struct Song {
+        public string video_id;
+        public int play_count;
+        public string vibe;
+        public string title;
+        public int duration;
+    }
 }
+
+//NEED TO ADD TITLE AND DURATION COLUMNS TO BACKLOG

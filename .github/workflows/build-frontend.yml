@@ -42,7 +42,9 @@ jobs:
             echo -e "region = eu-west-1\n" | sudo tee -a /root/.aws/config;
 
       - name: Bodge in API URL to HTML
-        run: sed -i 's%http\:\/\/localhost\:8000%${{ secrets.API_URL }}%g' etrashfm-frontend/index.html
+        run: |
+          sed -i 's%http\:\/\/localhost\:8000%${{ secrets.API_URL }}%g' etrashfm-frontend/index.html
+          sed -i 's%http\:\/\/localhost\:8000%${{ secrets.API_URL }}%g' etrashfm-frontend/backlog.html
 
       - name: Bodge in API URL to JS
         run: sed -i 's%http\:\/\/localhost\:8000%${{ secrets.API_URL }}%g' etrashfm-frontend/js/bundle.js

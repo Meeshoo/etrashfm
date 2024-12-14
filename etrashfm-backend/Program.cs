@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Xml.Serialization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -119,11 +120,53 @@ app.MapPost("/setcurrentvibe", ([FromServices] DJ dj, [FromForm] string vibe) =>
 
 }).DisableAntiforgery();
 
-app.MapPost("/submitvibe", ([FromServices] DJ dj, [FromForm] string vibe) => {
+app.MapPost("/submitvibe", ([FromServices] DJ dj, [FromForm] string vibe, [FromQuery] string video_id) => {
 
-        dj.SubmitVibe(vibe);
+        dj.SubmitVibe(vibe, video_id);
 
         return "Vibe updated (I hope)";
+
+}).DisableAntiforgery();
+
+app.MapGet("/getbacklog", ([FromServices] DJ dj) => {
+
+        IEnumerable<DJ.Song> songsInBacklog = dj.GetBacklog();
+
+        string backlogHTML = "<table><tr><th>Title</th><th>Vibe</th><th>Playcount</th><th>Vibe Selection</th></tr>";
+
+        foreach (var song in songsInBacklog) {
+            backlogHTML += $@"<tr><td>{song.title}</td><td>{song.vibe}</td><td>{song.play_count}</td><td>
+                    <div id=""vibe_updater"">
+                        <form hx-post=""http://localhost:8000/submitvibe?video_id={song.video_id}"" hx-target=""#vibe_submit_result"" hx-swap=""innerHTML settle:3s"">
+                            <label for=""vibe""></label>
+                            <select name=""vibe"">
+                                <option value=""christmas"">Christmas</option>
+                                <option value=""dance"">Dance / Electronic / Pog</option>
+                                <option value=""punk"">Punk / Ska</option>
+                                <option value=""metal"">Metal</option>
+                                <option value=""funk"">Funk</option>
+                                <option value=""indie"">Indie / Rock</option>
+                                <option value=""chill"">Chill</option>
+                                <option value=""real"">Real</option>
+                                <option value=""meme"">Meme</option>
+                            </select>
+                            <button class=""thin_button"">Update</button>
+                        </form>
+                        <p class=""message"" id=""vibe_submit_result""></p>
+                    </div>
+                    </td></tr>";
+        }
+
+        backlogHTML += "</table>";
+
+        return backlogHTML;
+
+}).DisableAntiforgery();
+
+app.MapGet("/fillbacklog", ([FromServices] DJ dj) => {
+
+    dj.FillBacklogTitle();
+    dj.FillBacklogDuration();
 
 }).DisableAntiforgery();
 

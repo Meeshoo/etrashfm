@@ -47,25 +47,6 @@
 
         <script src="js/bundle.js"></script>
 
-        <div id="vibe_updater">
-            <form hx-post="http://localhost:8000/submitvibe" hx-target="#vibe_submit_result" hx-swap="innerHTML settle:3s">
-                <label for="vibe">Update vibe for current song:</label>
-                <select name="vibe">
-                    <option value="christmas">Christmas</option>
-                    <option value="dance">Dance / Electronic / Pog</option>
-                    <option value="punk">Punk / Ska</option>
-                    <option value="metal">Metal</option>
-                    <option value="funk">Funk</option>
-                    <option value="indie">Indie / Rock</option>
-                    <option value="chill">Chill</option>
-                    <option value="real">Real</option>
-                    <option value="meme">Meme</option>
-                </select>
-                <button class="thin_button">Send</button>
-            </form>
-            <p class="message" id="vibe_submit_result"></p>
-        </div>
-
         <div>
             <button hx-get="http://localhost:8000/skipcurrentsong"
                 hx-trigger="click"

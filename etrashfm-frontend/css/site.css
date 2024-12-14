@@ -111,3 +111,14 @@ a {
   padding-top: 0rem;
   padding-bottom: 0rem;
 }
+
+/* BACKLOG */
+table {
+  border-collapse: collapse;
+}
+
+table, th,td {
+  padding: 1rem;
+  border: 1px solid;
+  text-align: center;
+}

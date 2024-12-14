@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<script src="pkgs/htmx.min.js" defer></script>
+
+<html>
+    <head>
+        <title>eTrash FM</title>
+        <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+        <link rel="stylesheet" type="text/css" href="css/site.css" />
+        <link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet">
+    </head>
+<body>
+
+<div id="backlog"
+    hx-get="http://localhost:8000/getbacklog"
+    hx-target="#backlog"
+    hx-swap="innerHTML"
+    hx-trigger="load">
+</div>
+
+</body>
+</html>
