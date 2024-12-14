@@ -112,10 +112,10 @@ public class DJ : IHostedService, IDisposable {
             database.Execute("INSERT INTO [backlog] VALUES(@video_id, @play_count, @vibe, @title, @duration)", new
             {
                 video_id = videoID,
-                play_count  = 0,
+                play_count = 0,
                 vibe = "",
                 title = songTitle,
-                currentSongDuration = songDuration
+                duration = songDuration
             });
         }
     }
