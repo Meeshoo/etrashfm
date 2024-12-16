@@ -142,8 +142,13 @@ public class DJ : IHostedService, IDisposable {
         return queue;
     }
 
-    public IEnumerable<Song> GetBacklog(){
-        IEnumerable<Song> backlog = database.Query<Song>("SELECT * FROM [backlog]");
+    public IEnumerable<Song> GetBacklog(bool all){
+        IEnumerable<Song> backlog;
+        if (all) {
+            backlog = database.Query<Song>("SELECT * FROM [backlog]");
+        } else {
+            backlog = database.Query<Song>("SELECT * FROM [backlog] WHERE vibe=\"\"");
+        }
         return backlog;
     }
 

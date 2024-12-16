@@ -128,9 +128,9 @@ app.MapPost("/submitvibe", ([FromServices] DJ dj, [FromForm] string vibe, [FromQ
 
 }).DisableAntiforgery();
 
-app.MapGet("/getbacklog", ([FromServices] DJ dj) => {
+app.MapGet("/getbacklog", ([FromServices] DJ dj, [FromQuery(Name = "all")] bool all) => {
 
-        IEnumerable<DJ.Song> songsInBacklog = dj.GetBacklog();
+        IEnumerable<DJ.Song> songsInBacklog = dj.GetBacklog(all);
 
         string backlogHTML = "<table><tr><th>Title</th><th>Vibe</th><th>Playcount</th><th>Vibe Selection</th></tr>";
 
