@@ -113,7 +113,7 @@ public class DJ : IHostedService, IDisposable {
         Console.WriteLine($"Play count: {song.Count()}");
         
         if (!song.Any()) {
-            database.Execute("INSERT INTO [backlog] VALUES(@video_id, @play_count, @vibe, @title, @duration)", new
+            database.Execute("INSERT INTO [backlog] VALUES(@video_id, @play_count, @vibe, @title, @duration, @hour_when_last_played)", new
             {
                 video_id = videoID,
                 play_count = 0,
