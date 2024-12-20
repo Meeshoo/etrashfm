@@ -142,6 +142,7 @@ app.MapGet("/getbacklog", ([FromServices] DJ dj, [FromQuery(Name = "all")] bool 
                             <select name=""vibe"">
                                 <option value=""christmas"">Christmas</option>
                                 <option value=""dance"">Dance / Electronic / Pog</option>
+                                <option value=""synthwave"">Synthwavey</option>
                                 <option value=""punk"">Punk / Ska</option>
                                 <option value=""metal"">Metal</option>
                                 <option value=""funk"">Funk</option>
