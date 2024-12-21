@@ -56,9 +56,9 @@ public class DJ : IHostedService, IDisposable {
             if (numberOfSongsInQueue == 0){
                 Console.WriteLine("No songs left, grabbing random from DB");
                 if (currentVibe == "any") {
-                    currentSongID = database.Query<string>("SELECT [video_id] FROM [backlog] ORDER BY hour_when_last_played ASC LIMIT 1").First();
+                    currentSongID = database.Query<string>("SELECT [video_id] FROM [backlog] ORDER BY RANDOM() LIMIT 1").First();
                 } else {
-                    currentSongID = database.Query<string>($"SELECT [video_id] FROM [backlog] WHERE vibe = \"{currentVibe}\" ORDER BY hour_when_last_played ASC LIMIT 1").FirstOrDefault("_YyzVXQyE_8");
+                    currentSongID = database.Query<string>($"SELECT [video_id] FROM [backlog] WHERE vibe = \"{currentVibe}\" ORDER BY RANDOM() LIMIT 1").FirstOrDefault("_YyzVXQyE_8");
                 }
                 currentSongDuration = database.Query<int>($"SELECT [duration] FROM [backlog] WHERE video_id = \"{currentSongID}\" LIMIT 1").FirstOrDefault(100);
                 
