@@ -150,6 +150,7 @@ app.MapGet("/getbacklog", ([FromServices] DJ dj, [FromQuery(Name = "all")] bool 
                                 <option value=""chill"">Chill</option>
                                 <option value=""real"">Real</option>
                                 <option value=""meme"">Meme</option>
+                                <option value=""deficit"">Deficit</option>
                             </select>
                             <button class=""thin_button"">Update</button>
                         </form>
