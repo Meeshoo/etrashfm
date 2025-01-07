@@ -5,6 +5,7 @@ using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Dapper;
 using System.ComponentModel;
+using System.Globalization;
 
 public class DJ : IHostedService, IDisposable {
 
@@ -58,7 +59,7 @@ public class DJ : IHostedService, IDisposable {
                 if (currentVibe == "any") {
                     currentSongID = database.Query<string>("SELECT [video_id] FROM [backlog] WHERE NOT vibe = \"christmas\" ORDER BY RANDOM() LIMIT 1").First();
                 } else {
-                    currentSongID = database.Query<string>($"SELECT [video_id] FROM [backlog] WHERE vibe = \"{currentVibe}\" ORDER BY RANDOM() LIMIT 1").FirstOrDefault("_YyzVXQyE_8");
+                    currentSongID = database.Query<string>($"SELECT [video_id] FROM [backlog] WHERE vibe = \"{currentVibe}\" ORDER BY datetime(date_last_played) ASC LIMIT 1").FirstOrDefault("_YyzVXQyE_8");
                 }
                 currentSongDuration = database.Query<int>($"SELECT [duration] FROM [backlog] WHERE video_id = \"{currentSongID}\" LIMIT 1").FirstOrDefault(100);
                 
@@ -79,9 +80,9 @@ public class DJ : IHostedService, IDisposable {
 
             database.Execute($"DELETE FROM [queue] WHERE (video_id = \"{currentSongID}\")");
 
-            int hourWhenSongWasPlayed = DateTime.UtcNow.Hour;
+            string dateLastPlayed = DateTime.UtcNow.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz", CultureInfo.InvariantCulture);
 
-            database.Execute($"UPDATE [backlog] SET hour_when_last_played={hourWhenSongWasPlayed} WHERE (video_id = \"{currentSongID}\")");
+            database.Execute($"UPDATE [backlog] SET date_last_played=\"{dateLastPlayed}\" WHERE (video_id = \"{currentSongID}\")");
 
             Console.WriteLine($"Now playing: {currentSongID} with duration {currentSongDuration}s");
         }
@@ -113,14 +114,14 @@ public class DJ : IHostedService, IDisposable {
         Console.WriteLine($"Play count: {song.Count()}");
         
         if (!song.Any()) {
-            database.Execute("INSERT INTO [backlog] VALUES(@video_id, @play_count, @vibe, @title, @duration, @hour_when_last_played)", new
+            database.Execute("INSERT INTO [backlog] VALUES(@video_id, @play_count, @vibe, @title, @duration, @date_last_played)", new
             {
                 video_id = videoID,
                 play_count = 0,
                 vibe = "",
                 title = songTitle,
                 duration = songDuration,
-                hour_when_last_played = 0
+                date_last_played = 0
             });
         }
     }
@@ -222,7 +223,7 @@ public class DJ : IHostedService, IDisposable {
         public string vibe;
         public string title;
         public int duration;
-        public int hour_when_last_played;
+        public int date_last_played;
     }
 }
 
