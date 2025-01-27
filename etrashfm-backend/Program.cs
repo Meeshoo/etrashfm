@@ -20,7 +20,7 @@ string API_URL = "http://127.0.0.1:8000";
 app.UseCors( x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .WithOrigins(BASE_URL));
+    .WithOrigins(BASE_URL, "https://www.youtube.com"));
 
 
 // Endpoints
@@ -89,6 +89,18 @@ app.MapPost("/addsongtoqueue", ([FromForm] string youtubeVideoURL, [FromServices
 
 }).DisableAntiforgery();
 
+app.MapPost("/addsongtoqueuefromextension", ([FromQuery] string video_id, [FromServices] DJ dj) =>
+{
+    if (validateUrl(video_id)) {
+        string id = getIdFromUrl(video_id);
+        dj.AddSongToQueue(id);
+        return "ok";
+    } else {
+        return "bad";
+    }
+
+}).DisableAntiforgery();
+
 app.MapPost("/removesongfromqueue", ([FromQuery] string video_id, [FromServices] DJ dj) => {
 
         dj.RemoveSongFromQueue(video_id);
@@ -128,46 +140,9 @@ app.MapPost("/submitvibe", ([FromServices] DJ dj, [FromForm] string vibe, [FromQ
 
 }).DisableAntiforgery();
 
-app.MapGet("/getbacklog", ([FromServices] DJ dj) => {
+app.MapGet("/getbacklog", ([FromServices] DJ dj, [FromQuery(Name = "all")] bool all) => {
 
-        IEnumerable<DJ.Song> songsInBacklog = dj.GetBacklog();
-
-        string backlogHTML = "<table><tr><th>Title</th><th>Vibe</th><th>Playcount</th><th>Vibe Selection</th></tr>";
-
-        foreach (var song in songsInBacklog) {
-            backlogHTML += $@"<tr><td>{song.title}</td><td>{song.vibe}</td><td>{song.play_count}</td><td>
-                    <div id=""vibe_updater"">
-                        <form hx-post=""http://127.0.0.1:8000/submitvibe?video_id={song.video_id}"" hx-target=""#vibe_submit_result"" hx-swap=""innerHTML settle:3s"">
-                            <label for=""vibe""></label>
-                            <select name=""vibe"">
-                                <option value=""christmas"">Christmas</option>
-                                <option value=""dance"">Dance / Electronic / Pog</option>
-                                <option value=""synthwave"">Synthwavey</option>
-                                <option value=""punk"">Punk / Ska</option>
-                                <option value=""metal"">Metal</option>
-                                <option value=""funk"">Funk</option>
-                                <option value=""indie"">Indie / Rock</option>
-                                <option value=""chill"">Chill</option>
-                                <option value=""real"">Real</option>
-                                <option value=""meme"">Meme</option>
-                                <option value=""deficit"">Deficit</option>
-                            </select>
-                            <button class=""thin_button"">Update</button>
-                        </form>
-                        <p class=""message"" id=""vibe_submit_result""></p>
-                    </div>
-                    </td></tr>";
-        }
-
-        backlogHTML += "</table>";
-
-        return backlogHTML;
-
-}).DisableAntiforgery();
-
-app.MapGet("/getbacklogall", ([FromServices] DJ dj) => {
-
-        IEnumerable<DJ.Song> songsInBacklog = dj.GetBacklogAll();
+        IEnumerable<DJ.Song> songsInBacklog = dj.GetBacklog(all);
 
         string backlogHTML = "<table><tr><th>Title</th><th>Vibe</th><th>Playcount</th><th>Vibe Selection</th></tr>";
 

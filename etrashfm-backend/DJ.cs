@@ -121,7 +121,7 @@ public class DJ : IHostedService, IDisposable {
                 vibe = "",
                 title = songTitle,
                 duration = songDuration,
-                date_last_played = 0
+                date_last_played = ""
             });
         }
     }
@@ -148,19 +148,13 @@ public class DJ : IHostedService, IDisposable {
         return queue;
     }
 
-    public IEnumerable<Song> GetBacklog(){
+    public IEnumerable<Song> GetBacklog(bool all){
         IEnumerable<Song> backlog;
-        
-        backlog = database.Query<Song>("SELECT * FROM [backlog] WHERE vibe=\"\"");
-
-        return backlog;
-    }
-
-    public IEnumerable<Song> GetBacklogAll(){
-        IEnumerable<Song> backlog;
-
-        backlog = database.Query<Song>("SELECT * FROM [backlog]");
-
+        if (all) {
+            backlog = database.Query<Song>("SELECT * FROM [backlog]");
+        } else {
+            backlog = database.Query<Song>("SELECT * FROM [backlog] WHERE vibe=\"\"");
+        }
         return backlog;
     }
 
@@ -232,5 +226,3 @@ public class DJ : IHostedService, IDisposable {
         public int date_last_played;
     }
 }
-
-//NEED TO ADD TITLE AND DURATION COLUMNS TO BACKLOG

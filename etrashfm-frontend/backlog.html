@@ -32,12 +32,12 @@
 
 <h2>Backlog</h2>
 <div id="backlog"
-    hx-get="http://localhost:8000/getbacklog"
+    hx-get="http://localhost:8000/getbacklog?all=false"
     hx-target="#backlog"
     hx-swap="innerHTML"
     hx-trigger="load">
 </div>
-<button hx-get="http://localhost:8000/getbacklogall"
+<button hx-get="http://localhost:8000/getbacklog?all=true"
     hx-trigger="click"
     hx-target="#backlog"
     hx-swap="innerHTML">
