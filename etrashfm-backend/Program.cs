@@ -11,21 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<DJ>();
 builder.Services.AddHostedService<DJ>();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            policy.WithOrigins(BASE_URL, "https://www.youtube.com");
-            policy.AllowAnyHeader();
-            policy.AllowAnyMethod();
-        });
-});
+builder.Services.AddCors();
 
 var app = builder.Build();
 
 
-app.UseCors();
+app.UseCors( x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .WithOrigins(BASE_URL, "https://www.youtube.com"));
 
 
 // Endpoints
