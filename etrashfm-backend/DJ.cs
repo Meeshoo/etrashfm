@@ -223,6 +223,6 @@ public class DJ : IHostedService, IDisposable {
         public string vibe;
         public string title;
         public int duration;
-        public int date_last_played;
+        public string date_last_played;
     }
 }
