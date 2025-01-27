@@ -76,8 +76,7 @@ app.MapGet("/skipcurrentsong", ([FromServices] DJ dj) =>
 });
 
 
-app.MapPost("/addsongtoqueue", ([FromForm] string youtubeVideoURL, [FromServices] DJ dj) =>
-{
+app.MapPost("/addsongtoqueue", ([FromForm] string youtubeVideoURL, [FromServices] DJ dj) => {
     if (validateUrl(youtubeVideoURL)) {
         string id = getIdFromUrl(youtubeVideoURL);
         dj.AddSongToQueue(id);
@@ -88,15 +87,9 @@ app.MapPost("/addsongtoqueue", ([FromForm] string youtubeVideoURL, [FromServices
 
 }).DisableAntiforgery();
 
-app.MapPost("/addsongtoqueuefromextension", ([FromQuery] string video_id, [FromServices] DJ dj) =>
-{
-    if (validateUrl(video_id)) {
-        string id = getIdFromUrl(video_id);
-        dj.AddSongToQueue(id);
-        return "ok";
-    } else {
-        return "bad";
-    }
+app.MapPost("/addsongtoqueuefromextension", ([FromBody] string video_id, [FromServices] DJ dj) => {
+
+    dj.AddSongToQueue(video_id);
 
 }).DisableAntiforgery();
 
