@@ -3,24 +3,29 @@ using System.Xml.Serialization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
+string BASE_URL = "http://127.0.0.1:5500";
+string API_URL = "http://127.0.0.1:8000";
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<DJ>();
 builder.Services.AddHostedService<DJ>();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins(BASE_URL, "https://www.youtube.com");
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
 
-string BASE_URL = "http://127.0.0.1:5500";
-string API_URL = "http://127.0.0.1:8000";
-
-
-app.UseCors( x => x
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .WithOrigins(BASE_URL, "https://www.youtube.com"));
+app.UseCors();
 
 
 // Endpoints
