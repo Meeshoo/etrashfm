@@ -145,7 +145,8 @@ app.MapGet("/getbacklog", ([FromServices] DJ dj, [FromQuery(Name = "all")] bool 
                             <label for=""vibe""></label>
                             <select name=""vibe"">
                                 <option value=""christmas"">Christmas</option>
-                                <option value=""dance"">Dance / Electronic / Pog</option>
+                                <option value=""dance"">Dance / Electronic</option>
+                                <option value=""foxstevenson"">Fox Stevenson</option>
                                 <option value=""synthwave"">Synthwavey</option>
                                 <option value=""punk"">Punk / Ska</option>
                                 <option value=""metal"">Metal</option>
@@ -154,6 +155,7 @@ app.MapGet("/getbacklog", ([FromServices] DJ dj, [FromQuery(Name = "all")] bool 
                                 <option value=""chill"">Chill</option>
                                 <option value=""real"">Real</option>
                                 <option value=""meme"">Meme</option>
+                                <option value=""hotdad"">Hot Dad</option>
                                 <option value=""deficit"">Deficit</option>
                             </select>
                             <button class=""thin_button"">Update</button>
