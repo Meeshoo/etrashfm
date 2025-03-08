@@ -87,7 +87,7 @@ app.MapPost("/addsongtoqueue", ([FromForm] string youtubeVideoURL, [FromServices
 
 }).DisableAntiforgery();
 
-app.MapPost("/addsongtoqueuefromextension", ([FromBody] string video_id, [FromServices] DJ dj) => {
+app.MapPost("/addsongtoqueuefromextension", ([FromQuery] string video_id, [FromServices] DJ dj) => {
 
     dj.AddSongToQueue(video_id);
 
