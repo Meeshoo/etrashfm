@@ -87,13 +87,13 @@ app.MapPost("/addsongtoqueue", ([FromForm] string youtubeVideoURL, [FromServices
 
 }).DisableAntiforgery();
 
-app.MapPost("/addsongtoqueuefromextension", ([FromQuery] string video_id, [FromServices] DJ dj) => {
+app.MapGet("/addsongtoqueuefromextension", ([FromQuery] string video_id, [FromServices] DJ dj) => {
 
     dj.AddSongToQueue(video_id);
 
 }).DisableAntiforgery();
 
-app.MapGet("/removesongfromqueue", ([FromQuery] string video_id, [FromServices] DJ dj) => {
+app.MapPost("/removesongfromqueue", ([FromQuery] string video_id, [FromServices] DJ dj) => {
 
         dj.RemoveSongFromQueue(video_id);
 
