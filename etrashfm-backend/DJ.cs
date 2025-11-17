@@ -57,7 +57,12 @@ public class DJ : IHostedService, IDisposable {
             if (numberOfSongsInQueue == 0){
                 Console.WriteLine("No songs left, grabbing random from DB");
                 if (currentVibe == "any") {
-                    currentSongID = database.Query<string>("SELECT [video_id] FROM [backlog] WHERE NOT vibe = \"christmas\" ORDER BY RANDOM() LIMIT 1").First();
+                    // Christmas check
+                    if (DateTime.Now.Month == 12 && DateTime.Now.Day > 0 && DateTime.Now.Day < 26) {
+                        currentSongID = database.Query<string>("SELECT [video_id] FROM [backlog] ORDER BY RANDOM() LIMIT 1").First();
+                    } else {
+                        currentSongID = database.Query<string>("SELECT [video_id] FROM [backlog] WHERE NOT vibe = \"christmas\" ORDER BY RANDOM() LIMIT 1").First();
+                    }
                 } else {
                     currentSongID = database.Query<string>($"SELECT [video_id] FROM [backlog] WHERE vibe = \"{currentVibe}\" ORDER BY datetime(date_last_played) ASC LIMIT 1").FirstOrDefault("_YyzVXQyE_8");
                 }
