@@ -185,6 +185,15 @@ app.MapGet("/getbacklogcount", ([FromServices] DJ dj) => {
 
 }).DisableAntiforgery();
 
+app.MapGet("/metrics", ([FromServices] DJ dj) => {
+
+    int queueLength = dj.GetQueue().Count();
+    int totalBacklogSize = dj.GetBacklogCount();
+
+    return $"etrashfm_queue_length {queueLength}\netrashfm_backlog_size {totalBacklogSize}";
+
+}).DisableAntiforgery();
+
 string getIdFromUrl(string youtubeVideoURL) {
     int questionMarkPosition = youtubeVideoURL.IndexOf('?');
     string result = youtubeVideoURL.Substring(questionMarkPosition + 3, 11);
