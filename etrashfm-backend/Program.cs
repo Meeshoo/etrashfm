@@ -179,7 +179,7 @@ app.MapGet("/fillbacklog", ([FromServices] DJ dj) => {
 
 app.MapGet("/getbacklogcount", ([FromServices] DJ dj) => {
 
-    int songCount = dj.GetBacklogCount();
+    int songCount = dj.GetBacklog(true).Count();
 
     return songCount;
 
@@ -188,9 +188,10 @@ app.MapGet("/getbacklogcount", ([FromServices] DJ dj) => {
 app.MapGet("/metrics", ([FromServices] DJ dj) => {
 
     int queueLength = dj.GetQueue().Count();
-    int totalBacklogSize = dj.GetBacklogCount();
+    int totalBacklogCount = dj.GetBacklog(true).Count();
+    int backlogUncategorizedCount = dj.GetBacklog(false).Count();
 
-    return $"etrashfm_queue_length {queueLength}\netrashfm_backlog_size {totalBacklogSize}";
+    return $"etrashfm_queue_length {queueLength}\netrashfm_backlog_size {totalBacklogCount}\netrashfm_backlog_uncategorized_size {backlogUncategorizedCount}";
 
 }).DisableAntiforgery();
 
