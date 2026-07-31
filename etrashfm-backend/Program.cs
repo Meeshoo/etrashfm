@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -191,7 +192,10 @@ app.MapGet("/metrics", ([FromServices] DJ dj) => {
     int totalBacklogCount = dj.GetBacklog(true).Count();
     int backlogUncategorizedCount = dj.GetBacklog(false).Count();
 
-    return $"etrashfm_queue_length {queueLength}\netrashfm_backlog_size {totalBacklogCount}\netrashfm_backlog_uncategorized_size {backlogUncategorizedCount}";
+    return @$"etrashfm_queue_length {queueLength}
+etrashfm_backlog_size {totalBacklogCount}
+etrashfm_backlog_uncategorized_size {backlogUncategorizedCount}
+";
 
 }).DisableAntiforgery();
 
