@@ -19,6 +19,8 @@ public class DJ : IHostedService, IDisposable {
     YouTubeService yt;
     readonly IDbConnection database;
 
+    private int getQueueCallCount;
+
 
     public DJ(IConfiguration configuration){
 
@@ -144,8 +146,18 @@ public class DJ : IHostedService, IDisposable {
     }
 
     public IEnumerable<string> GetQueue(){
+        getQueueCallCount += 1;
         IEnumerable<string> queue = database.Query<string>("SELECT [video_title] FROM [queue]");
         return queue;
+    }
+
+    public int GetQueueCount(){
+        int queueCount = database.Query<int>("SELECT COUNT(*) FROM [queue]").First();
+        return queueCount;
+    }
+
+    public int GetQueueCallCount() {
+        return getQueueCallCount;
     }
 
     public IEnumerable<string> GetQueueIds(){
